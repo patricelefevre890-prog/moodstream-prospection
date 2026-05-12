@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moodstream.ai — Générateur d'emails</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #f7f9f7; font-family: 'Inter', sans-serif; color: #1a2e1a; }
+    ::selection { background: #2d7a3a33; }
+    .shell { max-width: 680px; margin: 0 auto; padding: 48px 24px 80px; }
+    .logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 36px; }
+    .logo-mark { width: 36px; height: 36px; background: #2d7a3a; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .logo-name { font-size: 15px; font-weight: 600; color: #1a2e1a; }
+    .logo-dot { color: #2d7a3a; }
+    h1 { font-family: 'Lora', serif; font-size: clamp(26px, 4vw, 38px); font-weight: 600; line-height: 1.2; color: #1a2e1a; margin-bottom: 10px; }
+    h1 em { font-style: italic; color: #2d7a3a; font-weight: 400; }
+    .sub { font-size: 14px; color: #6b7c6b; line-height: 1.6; max-width: 420px; margin-bottom: 36px; }
+    .card { background: #fff; border: 1px solid #e0ebe0; border-radius: 16px; padding: 24px; margin-bottom: 12px; }
+    .sec-lbl { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #2d7a3a; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .sec-lbl::after { content: ''; flex: 1; height: 1px; background: #e8f0e8; }
+    .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field label { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #5a6e5a; }
+    .field input, .field select, .field textarea { background: #f7f9f7; border: 1.5px solid #dde8dd; border-radius: 9px; padding: 10px 13px; font-size: 14px; color: #1a2e1a; font-family: 'Inter', sans-serif; outline: none; width: 100%; transition: border-color .15s; }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: #2d7a3a; background: #fff; }
+    .field input::placeholder, .field textarea::placeholder { color: #b0c0b0; }
+    .field select option { background: #fff; }
+    .field textarea { min-height: 72px; resize: vertical; line-height: 1.6; }
+    .toggle-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .toggle-lbl { display: block; padding: 12px 16px; background: #f7f9f7; border: 1.5px solid #dde8dd; border-radius: 10px; cursor: pointer; transition: all .15s; }
+    .toggle-lbl:hover { border-color: #9ec4a0; background: #f3f8f3; }
+    .toggle-lbl.active { border-color: #2d7a3a; background: #f0f8f1; }
+    .toggle-lbl.active .tl-top { color: #2d7a3a; }
+    .tl-top { font-size: 13px; font-weight: 600; color: #1a2e1a; display: block; margin-bottom: 2px; }
+    .tl-sub { font-size: 11px; color: #8aaa8a; }
+    .lang-row { display: flex; gap: 8px; }
+    .lang-btn { padding: 8px 18px; background: #f7f9f7; border: 1.5px solid #dde8dd; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #8aaa8a; cursor: pointer; transition: all .15s; }
+    .lang-btn.on { border-color: #2d7a3a; color: #2d7a3a; background: #f0f8f1; font-weight: 600; }
+    .hint { font-size: 11px; color: #b0c0b0; text-align: center; margin-bottom: 8px; }
+    .gen-btn { width: 100%; padding: 15px; background: #2d7a3a; border: none; border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: #fff; cursor: pointer; transition: all .2s; margin-top: 8px; }
+    .gen-btn:hover:not(:disabled) { background: #245f2e; transform: translateY(-1px); box-shadow: 0 6px 24px #2d7a3a33; }
+    .gen-btn:disabled { background: #b0d0b5; cursor: not-allowed; transform: none; box-shadow: none; }
+    .result { background: #fff; border: 1.5px solid #2d7a3a; border-radius: 16px; overflow: hidden; margin-top: 20px; }
+    .res-head { padding: 16px 20px; background: #f0f8f1; border-bottom: 1px solid #d8ecd8; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .res-meta { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 0; }
+    .res-tag { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: #5a9a62; font-weight: 600; }
+    .res-objet { font-family: 'Lora', serif; font-size: 16px; color: #1a2e1a; line-height: 1.35; word-break: break-word; }
+    .res-actions { display: flex; gap: 8px; flex-shrink: 0; }
+    .copy-btn { padding: 8px 16px; background: #2d7a3a; border: none; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: #fff; cursor: pointer; transition: all .15s; }
+    .copy-btn:hover { background: #245f2e; }
+    .copy-btn.ok { background: #1a5a25; }
+    .new-btn { padding: 8px 14px; background: transparent; border: 1.5px solid #c8ddc8; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: #6b8a6b; cursor: pointer; transition: all .15s; }
+    .new-btn:hover { border-color: #9ec4a0; color: #3a6a3a; }
+    .res-body { padding: 22px 24px; font-size: 14px; line-height: 1.85; color: #334433; white-space: pre-wrap; }
+    .loading { padding: 44px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .spin { width: 32px; height: 32px; border: 2.5px solid #d8ecd8; border-top-color: #2d7a3a; border-radius: 50%; animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .load-txt { font-size: 13px; color: #8aaa8a; font-style: italic; }
+    .err { padding: 16px 20px; color: #c04040; font-size: 13px; background: #fff8f8; border-top: 1px solid #f0d0d0; }
+    .footer { margin-top: 40px; text-align: center; }
+    .footer a { font-size: 12px; color: #9ec4a0; text-decoration: none; }
+    .footer a:hover { color: #2d7a3a; }
+    .req { display: inline-block; background: #f0f8f1; border: 1px solid #c8ddc8; border-radius: 100px; padding: 2px 8px; font-size: 10px; color: #5a9a62; font-weight: 600; margin-left: 6px; vertical-align: middle; text-transform: none; letter-spacing: 0; }
+    @media (max-width: 520px) { .g2 { grid-template-columns: 1fr; } .toggle-row { grid-template-columns: 1fr; } .lang-row { flex-wrap: wrap; } .res-head { flex-direction: column; } }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState } = React;
+
+const SECTEURS = [
+  { value: "restaurant", label: "Restaurant / Café", douleur: "une playlist Spotify personnelle qui tourne en boucle — illégale et inadaptée selon l'heure", stat: "+9% de ventes avec une musique adaptée à votre identité", ambiance: "dynamique au déjeuner, lounge en soirée" },
+  { value: "boutique", label: "Boutique / Retail", douleur: "une musique générique qui ne reflète pas l'identité de la marque et n'influence pas l'humeur d'achat", stat: "+31,7% de CA dans la mode avec une musique cohérente", ambiance: "énergique en journée, plus douce en fin d'après-midi" },
+  { value: "salon", label: "Salon de coiffure / Beauté", douleur: "une radio commerciale avec des publicités qui brisent l'atmosphère zen du salon", stat: "41% des clients restent plus longtemps avec une bonne ambiance sonore", ambiance: "relaxante et soignée tout au long de la journée" },
+  { value: "bar", label: "Bar / Lounge", douleur: "une ambiance sonore qui ne monte pas en intensité en soirée, ratant l'opportunité de créer une vraie atmosphère", stat: "+42% de temps passé en établissement avec une musique adaptée", ambiance: "lounge en début de soirée, festive et montante ensuite" },
+  { value: "boulangerie", label: "Boulangerie / Pâtisserie", douleur: "une musique trop neutre qui ne renforce pas l'atmosphère chaleureuse et accueillante du lieu", stat: "39% des visiteurs reviennent grâce à une bonne ambiance", ambiance: "chaleureuse et matinale, douce en après-midi" },
+  { value: "fitness", label: "Salle de sport / Fitness", douleur: "une playlist qui ne s'adapte pas aux différents cours et moments (cardio, yoga, muscu, stretching)", stat: "+42% de temps passé grâce à une musique qui suit l'intensité", ambiance: "motivante en matinée, progressive selon le type de cours" },
+  { value: "hotel", label: "Hôtel / Hospitality", douleur: "une ambiance sonore uniforme dans tous les espaces sans personnalisation par zone", stat: "96% plus susceptibles d'être mémorisés avec une identité musicale forte", ambiance: "différente par zone : accueil, restauration, détente" },
+  { value: "autre", label: "Autre commerce", douleur: "une solution musicale générique qui ne correspond pas à l'identité unique du lieu", stat: "79% des visiteurs écoutent vraiment la musique dans un établissement", ambiance: "adaptée à votre secteur et à vos horaires" },
+];
+
+const LANGUES = [
+  { value: "fr", label: "Français" },
+  { value: "nl", label: "Nederlands" },
+  { value: "en", label: "English" },
+];
+
+const CTA_OPTIONS = [
+  { value: "gratuit", label: "14 jours gratuits", sub: "Sans carte de crédit" },
+  { value: "devis", label: "Devis gratuit", sub: "Personnalisé & rapide" },
+];
+
+function App() {
+  const [form, setForm] = useState({ prenom: "", commerce: "", ville: "", secteur: "", langue: "fr", cta: "gratuit", contexte: "" });
+  const [email, setEmail] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [error, setError] = useState(null);
+
+  const secteurData = SECTEURS.find(s => s.value === form.secteur);
+  const isValid = form.prenom && form.commerce && form.ville && form.secteur;
+  const set = (k, v) => setForm(p => ({ ...p, [k]: v }));
+
+  const buildPrompt = () => {
+    const ctaInstructions = {
+      gratuit: "Inviter à tester 14 jours gratuitement, sans engagement ni carte de crédit : https://www.moodstreamai.com/semaine-gratuite",
+      devis: "Inviter à demander un devis gratuit et personnalisé : https://www.moodstreamai.com/demande-de-devis",
+    };
+    const langueLabel = { fr: "FRANÇAIS", nl: "NÉERLANDAIS (Belgique)", en: "ANGLAIS" }[form.langue];
+    return `Tu es expert en prospection B2B pour Moodstream.ai.
+
+MOODSTREAM.AI — https://www.moodstreamai.com
+Slogan : "La bonne musique, au bon endroit, au bon moment."
+Solution SaaS de sonorisation intelligente pour les commerces. Musiques IA + artistes, automatisées selon les horaires.
+
+AVANTAGES :
+- Prêt en 10 minutes, aucune compétence technique
+- Programmation horaire complète (matin dynamique, midi lounge, soirée festive)
+- Jingles & annonces IA inclus
+- 100% légal, libre de droits, certificat de conformité inclus
+- Économies jusqu'à -50%/an vs SABAM/SACEM, dès 250€/an
+- 14 jours d'essai gratuit, sans engagement, sans carte de crédit
+
+STATS (Soundtrack Your Brand, FSR Magazine, Luminate Data) :
+- +9% de ventes avec une musique adaptée
+- +31,7% de CA dans la mode avec une musique cohérente
+- 41% des clients restent plus longtemps
+- 39% des visiteurs reviennent grâce à une bonne ambiance
+- +42% de temps passé avec une musique adaptée
+- 79% des visiteurs écoutent vraiment la musique en commerce
+
+PROSPECT :
+- Prénom : ${form.prenom}
+- Commerce : ${form.commerce}
+- Ville : ${form.ville}
+- Secteur : ${secteurData?.label}
+- Problème typique : ${secteurData?.douleur}
+- Stat pertinente : ${secteurData?.stat}
+- Ambiance idéale : ${secteurData?.ambiance}
+${form.contexte ? `- Contexte : ${form.contexte}` : ""}
+
+CONSIGNES :
+- Langue : ${langueLabel}
+- Ton : chaleureux, humain, direct — pas corporate
+- Corps : 160-200 mots maximum
+- Mentionner https://www.moodstreamai.com naturellement
+- Inclure au moins une stat concrète
+- Évoquer 2-3 avantages clés
+- Pas de bullet points dans le corps
+- CTA : ${ctaInstructions[form.cta]}
+- Objet : court, personnalisé, intrigant (max 10 mots)
+
+FORMAT (respecter exactement) :
+OBJET: [objet]
+
+[corps de l'email]
+
+[signature : prénom fictif + Équipe Moodstream.ai | www.moodstreamai.com]`;
+  };
+
+  const generer = async () => {
+    if (!isValid) return;
+    setLoading(true); setEmail(null); setError(null);
+    try {
+      const res = await fetch("/.netlify/functions/generate-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: buildPrompt() }),
+      });
+      const data = await res.json();
+      const text = data.content?.map(i => i.text || "").join("") || "";
+      if (!text) throw new Error("empty");
+      setEmail(text);
+    } catch {
+      setError("Une erreur est survenue. Vérifie que la clé API est bien configurée sur Netlify.");
+    }
+    setLoading(false);
+  };
+
+  const copier = () => {
+    if (!email) return;
+    navigator.clipboard.writeText(email).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); });
+  };
+
+  const parseEmail = (raw) => {
+    if (!raw) return { objet: "", corps: "" };
+    const match = raw.match(/OBJET:\s*(.+)\n([\s\S]*)/i);
+    if (match) return { objet: match[1].trim(), corps: match[2].trim() };
+    return { objet: "", corps: raw.trim() };
+  };
+
+  const { objet, corps } = parseEmail(email);
+
+  return (
+    <div className="shell">
+      <div className="logo-row">
+        <div className="logo-mark">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
+            <path d="M3 10 Q7 4 10 10 Q13 16 17 10" />
+          </svg>
+        </div>
+        <span className="logo-name">Moodstream<span className="logo-dot">.ai</span></span>
+      </div>
+
+      <h1>Emails de prospection <em>personnalisés</em></h1>
+      <p className="sub">Génère en quelques secondes un email chaleureux et convaincant pour présenter Moodstream.ai à tes prospects.</p>
+
+      <div className="card">
+        <div className="sec-lbl">Informations du prospect</div>
+        <div style={{display:"flex",flexDirection:"column",gap:12}}>
+          <div className="g2">
+            <div className="field">
+              <label>Prénom <span className="req">requis</span></label>
+              <input placeholder="ex : Sophie" value={form.prenom} onChange={e => set("prenom", e.target.value)} />
+            </div>
+            <div className="field">
+              <label>Nom du commerce <span className="req">requis</span></label>
+              <input placeholder="ex : Le Petit Zinc" value={form.commerce} onChange={e => set("commerce", e.target.value)} />
+            </div>
+          </div>
+          <div className="g2">
+            <div className="field">
+              <label>Ville <span className="req">requis</span></label>
+              <input placeholder="ex : Gand" value={form.ville} onChange={e => set("ville", e.target.value)} />
+            </div>
+            <div className="field">
+              <label>Secteur <span className="req">requis</span></label>
+              <select value={form.secteur} onChange={e => set("secteur", e.target.value)}>
+                <option value="">Choisir un secteur…</option>
+                {SECTEURS.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="field">
+            <label>Contexte additionnel <span style={{fontWeight:400,textTransform:"none",letterSpacing:0,color:"#b0c0b0",fontSize:11}}>(optionnel)</span></label>
+            <textarea placeholder="ex : ils utilisent Spotify en commerce, viennent d'ouvrir, ont mentionné un problème SABAM…" value={form.contexte} onChange={e => set("contexte", e.target.value)} />
+          </div>
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="sec-lbl">Appel à l'action souhaité</div>
+        <div className="toggle-row">
+          {CTA_OPTIONS.map(opt => (
+            <div key={opt.value} className={`toggle-lbl${form.cta === opt.value ? " active" : ""}`} onClick={() => set("cta", opt.value)} style={{cursor:"pointer"}}>
+              <span className="tl-top">{opt.label}</span>
+              <span className="tl-sub">{opt.sub}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="sec-lbl">Langue de l'email</div>
+        <div className="lang-row">
+          {LANGUES.map(l => (
+            <button key={l.value} className={`lang-btn${form.langue === l.value ? " on" : ""}`} onClick={() => set("langue", l.value)}>{l.label}</button>
+          ))}
+        </div>
+      </div>
+
+      {!isValid && <p className="hint">Remplis les 4 champs requis pour générer l'email.</p>}
+
+      <button className="gen-btn" onClick={generer} disabled={!isValid || loading}>
+        {loading ? "Génération en cours…" : "Générer l'email de prospection →"}
+      </button>
+
+      {loading && (
+        <div className="result">
+          <div className="loading">
+            <div className="spin" />
+            <span className="load-txt">Rédaction personnalisée en cours…</span>
+          </div>
+        </div>
+      )}
+
+      {email && !loading && (
+        <div className="result">
+          <div className="res-head">
+            <div className="res-meta">
+              <span className="res-tag">Objet de l'email</span>
+              <span className="res-objet">{objet || "—"}</span>
+            </div>
+            <div className="res-actions">
+              <button className={`copy-btn${copied ? " ok" : ""}`} onClick={copier}>{copied ? "✓ Copié !" : "Copier"}</button>
+              <button className="new-btn" onClick={() => { setEmail(null); setError(null); }}>Nouveau</button>
+            </div>
+          </div>
+          <div className="res-body">{corps}</div>
+        </div>
+      )}
+
+      {error && !loading && (
+        <div className="result"><div className="err">{error}</div></div>
+      )}
+
+      <div className="footer">
+        <a href="https://www.moodstreamai.com" target="_blank">www.moodstreamai.com</a>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
