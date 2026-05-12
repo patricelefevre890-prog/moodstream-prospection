@@ -16,54 +16,78 @@
     .logo-dot { color: #2d7a3a; }
     h1 { font-family: 'Lora', serif; font-size: clamp(26px, 4vw, 38px); font-weight: 600; line-height: 1.2; color: #1a2e1a; margin-bottom: 10px; }
     h1 em { font-style: italic; color: #2d7a3a; font-weight: 400; }
-    .sub { font-size: 14px; color: #6b7c6b; line-height: 1.6; max-width: 420px; margin-bottom: 36px; }
+    .sub { font-size: 14px; color: #6b7c6b; line-height: 1.6; max-width: 440px; margin-bottom: 36px; }
     .card { background: #fff; border: 1px solid #e0ebe0; border-radius: 16px; padding: 24px; margin-bottom: 12px; }
     .sec-lbl { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #2d7a3a; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
     .sec-lbl::after { content: ''; flex: 1; height: 1px; background: #e8f0e8; }
     .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
     .field { display: flex; flex-direction: column; gap: 5px; }
     .field label { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #5a6e5a; }
     .field input, .field select, .field textarea { background: #f7f9f7; border: 1.5px solid #dde8dd; border-radius: 9px; padding: 10px 13px; font-size: 14px; color: #1a2e1a; font-family: 'Inter', sans-serif; outline: none; width: 100%; transition: border-color .15s, background .15s; }
     .field input:focus, .field select:focus, .field textarea:focus { border-color: #2d7a3a; background: #fff; }
     .field input::placeholder, .field textarea::placeholder { color: #b0c0b0; }
     .field textarea { min-height: 72px; resize: vertical; line-height: 1.6; }
+    .opt-lbl { font-weight: 400; text-transform: none; letter-spacing: 0; color: #b0c0b0; font-size: 11px; }
+
+    /* Toggle options */
     .toggle-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .toggle-opt { padding: 12px 16px; background: #f7f9f7; border: 1.5px solid #dde8dd; border-radius: 10px; cursor: pointer; transition: all .15s; user-select: none; }
+    .toggle-opt { padding: 13px 16px; background: #f7f9f7; border: 1.5px solid #dde8dd; border-radius: 10px; cursor: pointer; transition: all .15s; user-select: none; }
     .toggle-opt:hover { border-color: #9ec4a0; background: #f3f8f3; }
     .toggle-opt.active { border-color: #2d7a3a; background: #f0f8f1; }
     .toggle-opt.active .tl-top { color: #2d7a3a; }
-    .tl-top { font-size: 13px; font-weight: 600; color: #1a2e1a; display: block; margin-bottom: 2px; }
-    .tl-sub { font-size: 11px; color: #8aaa8a; }
+    .tl-top { font-size: 13px; font-weight: 600; color: #1a2e1a; display: block; margin-bottom: 3px; }
+    .tl-sub { font-size: 11px; color: #8aaa8a; line-height: 1.4; }
+
+    /* Version type cards — bigger, more descriptive */
+    .version-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .version-opt { padding: 16px 18px; background: #f7f9f7; border: 1.5px solid #dde8dd; border-radius: 12px; cursor: pointer; transition: all .15s; user-select: none; position: relative; }
+    .version-opt:hover { border-color: #9ec4a0; background: #f3f8f3; }
+    .version-opt.active { border-color: #2d7a3a; background: #f0f8f1; }
+    .version-opt.active .v-title { color: #2d7a3a; }
+    .version-opt.active .v-badge { background: #2d7a3a; color: #fff; }
+    .v-badge { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; background: #e0ebe0; color: #6b8a6b; border-radius: 100px; padding: 3px 9px; margin-bottom: 8px; transition: all .15s; }
+    .v-title { font-size: 14px; font-weight: 600; color: #1a2e1a; display: block; margin-bottom: 5px; }
+    .v-desc { font-size: 12px; color: #8aaa8a; line-height: 1.5; }
+
     .lang-row { display: flex; gap: 8px; }
     .lang-btn { padding: 8px 18px; background: #f7f9f7; border: 1.5px solid #dde8dd; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #8aaa8a; cursor: pointer; transition: all .15s; }
     .lang-btn.on { border-color: #2d7a3a; color: #2d7a3a; background: #f0f8f1; font-weight: 600; }
+
     .hint { font-size: 11px; color: #b0c0b0; text-align: center; margin: 8px 0; }
     .req { display: inline-block; background: #f0f8f1; border: 1px solid #c8ddc8; border-radius: 100px; padding: 2px 8px; font-size: 10px; color: #5a9a62; font-weight: 600; margin-left: 4px; vertical-align: middle; text-transform: none; letter-spacing: 0; }
+
     .gen-btn { width: 100%; padding: 15px; background: #2d7a3a; border: none; border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: #fff; cursor: pointer; transition: all .2s; margin-top: 8px; }
     .gen-btn:hover:not(:disabled) { background: #245f2e; transform: translateY(-1px); box-shadow: 0 6px 24px #2d7a3a33; }
     .gen-btn:disabled { background: #b0d0b5; cursor: not-allowed; transform: none; box-shadow: none; }
+
     #result-box { display: none; background: #fff; border: 1.5px solid #2d7a3a; border-radius: 16px; overflow: hidden; margin-top: 20px; }
     .res-head { padding: 16px 20px; background: #f0f8f1; border-bottom: 1px solid #d8ecd8; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
     .res-meta { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 0; }
     .res-tag { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: #5a9a62; font-weight: 600; }
     .res-objet { font-family: 'Lora', serif; font-size: 16px; color: #1a2e1a; line-height: 1.35; word-break: break-word; }
     .res-actions { display: flex; gap: 8px; flex-shrink: 0; }
-    .copy-btn { padding: 8px 16px; background: #2d7a3a; border: none; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: #fff; cursor: pointer; }
+    .copy-btn { padding: 8px 16px; background: #2d7a3a; border: none; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: #fff; cursor: pointer; transition: background .15s; }
     .copy-btn:hover { background: #245f2e; }
-    .new-btn { padding: 8px 14px; background: transparent; border: 1.5px solid #c8ddc8; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: #6b8a6b; cursor: pointer; }
+    .new-btn { padding: 8px 14px; background: transparent; border: 1.5px solid #c8ddc8; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: #6b8a6b; cursor: pointer; transition: all .15s; }
     .new-btn:hover { border-color: #9ec4a0; color: #3a6a3a; }
-    .res-body { padding: 22px 24px; font-size: 14px; line-height: 1.85; color: #334433; white-space: pre-wrap; }
+    .res-body { padding: 22px 24px; font-size: 14px; line-height: 1.9; color: #334433; white-space: pre-wrap; }
+
     .loading-area { padding: 44px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
     .spin { width: 32px; height: 32px; border: 2.5px solid #d8ecd8; border-top-color: #2d7a3a; border-radius: 50%; animation: spin .7s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .load-txt { font-size: 13px; color: #8aaa8a; font-style: italic; font-family: 'Lora', serif; }
     .err-box { padding: 16px 20px; color: #c04040; font-size: 13px; background: #fff8f8; }
+
     .footer { margin-top: 40px; text-align: center; }
     .footer a { font-size: 12px; color: #9ec4a0; text-decoration: none; }
     .footer a:hover { color: #2d7a3a; }
-    @media (max-width: 520px) {
+
+    @media (max-width: 540px) {
       .g2 { grid-template-columns: 1fr; }
+      .g3 { grid-template-columns: 1fr; }
       .toggle-row { grid-template-columns: 1fr; }
+      .version-row { grid-template-columns: 1fr; }
       .lang-row { flex-wrap: wrap; }
       .res-head { flex-direction: column; }
     }
@@ -87,20 +111,24 @@
   <!-- Prospect -->
   <div class="card">
     <div class="sec-lbl">Informations du prospect</div>
-    <div class="g2">
+    <div class="g3">
       <div class="field">
         <label>Prénom <span class="req">requis</span></label>
         <input type="text" id="prenom" placeholder="ex : Sophie" oninput="checkForm()" />
       </div>
+      <div class="field" id="nom-field">
+        <label>Nom de famille <span class="opt-lbl">(vouvoiement)</span></label>
+        <input type="text" id="nom" placeholder="ex : Dupont" />
+      </div>
       <div class="field">
-        <label>Nom du commerce <span class="req">requis</span></label>
-        <input type="text" id="commerce" placeholder="ex : Le Petit Zinc" oninput="checkForm()" />
+        <label>Ville <span class="req">requis</span></label>
+        <input type="text" id="ville" placeholder="ex : Gand" oninput="checkForm()" />
       </div>
     </div>
     <div class="g2">
       <div class="field">
-        <label>Ville <span class="req">requis</span></label>
-        <input type="text" id="ville" placeholder="ex : Gand" oninput="checkForm()" />
+        <label>Nom du commerce <span class="req">requis</span></label>
+        <input type="text" id="commerce" placeholder="ex : Le Petit Zinc" oninput="checkForm()" />
       </div>
       <div class="field">
         <label>Secteur <span class="req">requis</span></label>
@@ -118,8 +146,25 @@
       </div>
     </div>
     <div class="field">
-      <label>Contexte additionnel <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#b0c0b0;font-size:11px">(optionnel)</span></label>
+      <label>Contexte additionnel <span class="opt-lbl">(optionnel)</span></label>
       <textarea id="contexte" placeholder="ex : viennent d'ouvrir, utilisent Spotify, ont mentionné un problème SABAM…"></textarea>
+    </div>
+  </div>
+
+  <!-- Type d'email -->
+  <div class="card">
+    <div class="sec-lbl">Type d'email</div>
+    <div class="version-row">
+      <div class="version-opt active" id="type-cold" onclick="setType('cold')">
+        <span class="v-badge">Cold email</span>
+        <span class="v-title">Premier contact</span>
+        <span class="v-desc">Le prospect ne te connaît pas du tout. Email court, accrocheur, qui pique la curiosité et donne envie d'en savoir plus.</span>
+      </div>
+      <div class="version-opt" id="type-info" onclick="setType('info')">
+        <span class="v-badge">Demande d'info</span>
+        <span class="v-title">Prospect intéressé</span>
+        <span class="v-desc">Le prospect a montré de l'intérêt. Email plus complet qui présente la solution, propose une démo sur place et invite à passer à l'action.</span>
+      </div>
     </div>
   </div>
 
@@ -129,11 +174,11 @@
     <div class="toggle-row">
       <div class="toggle-opt active" id="ton-tutoiement" onclick="setTon('tutoiement')">
         <span class="tl-top">Tutoiement</span>
-        <span class="tl-sub">Chaleureux & proche</span>
+        <span class="tl-sub">Chaleureux & proche — utilise le prénom</span>
       </div>
       <div class="toggle-opt" id="ton-vouvoiement" onclick="setTon('vouvoiement')">
         <span class="tl-top">Vouvoiement</span>
-        <span class="tl-sub">Professionnel & respectueux</span>
+        <span class="tl-sub">Professionnel — utilise le nom de famille</span>
       </div>
     </div>
   </div>
@@ -177,7 +222,7 @@
     <div id="email-content" style="display:none">
       <div class="res-head">
         <div class="res-meta">
-          <span class="res-tag">Objet de l'email</span>
+          <span class="res-tag" id="res-type-label">Cold email</span>
           <span class="res-objet" id="email-objet">—</span>
         </div>
         <div class="res-actions">
@@ -199,23 +244,44 @@
   let cta = 'gratuit';
   let lang = 'fr';
   let ton = 'tutoiement';
+  let type = 'cold';
   let fullEmailText = '';
 
   const SECTEURS = {
-    restaurant: { douleur: "une playlist Spotify personnelle qui tourne en boucle — illégale et inadaptée selon l'heure", ambiance: "dynamique au déjeuner, lounge en soirée" },
-    boutique:   { douleur: "une musique générique qui ne reflète pas l'identité de la marque", ambiance: "énergique en journée, plus douce en fin d'après-midi" },
-    salon:      { douleur: "une radio commerciale avec des publicités qui brisent l'atmosphère zen du salon", ambiance: "relaxante et soignée tout au long de la journée" },
-    bar:        { douleur: "une ambiance sonore qui ne monte pas en intensité en soirée", ambiance: "lounge en début de soirée, festive et montante ensuite" },
-    boulangerie:{ douleur: "une musique trop neutre qui ne renforce pas l'atmosphère chaleureuse du lieu", ambiance: "chaleureuse et matinale, douce en après-midi" },
-    fitness:    { douleur: "une playlist qui ne s'adapte pas aux différents cours et moments de la journée", ambiance: "motivante en matinée, progressive selon le type de cours" },
-    hotel:      { douleur: "une ambiance sonore uniforme dans tous les espaces sans personnalisation par zone", ambiance: "différente par zone : accueil, restauration, détente" },
-    autre:      { douleur: "une solution musicale générique qui ne correspond pas à l'identité unique du lieu", ambiance: "adaptée au secteur et aux horaires" },
+    restaurant:  { douleur: "une playlist Spotify personnelle qui tourne en boucle — illégale et inadaptée selon l'heure", ambiance: "dynamique au déjeuner, lounge en soirée" },
+    boutique:    { douleur: "une musique générique qui ne reflète pas l'identité de la marque", ambiance: "énergique en journée, plus douce en fin d'après-midi" },
+    salon:       { douleur: "une radio commerciale avec des publicités qui brisent l'atmosphère zen du salon", ambiance: "relaxante et soignée tout au long de la journée" },
+    bar:         { douleur: "une ambiance sonore qui ne monte pas en intensité en soirée", ambiance: "lounge en début de soirée, festive et montante ensuite" },
+    boulangerie: { douleur: "une musique trop neutre qui ne renforce pas l'atmosphère chaleureuse du lieu", ambiance: "chaleureuse et matinale, douce en après-midi" },
+    fitness:     { douleur: "une playlist qui ne s'adapte pas aux différents cours et moments de la journée", ambiance: "motivante en matinée, progressive selon le type de cours" },
+    hotel:       { douleur: "une ambiance sonore uniforme dans tous les espaces sans personnalisation par zone", ambiance: "différente par zone : accueil, restauration, détente" },
+    autre:       { douleur: "une solution musicale générique qui ne correspond pas à l'identité unique du lieu", ambiance: "adaptée au secteur et aux horaires" },
   };
+
+  function setType(val) {
+    type = val;
+    document.querySelectorAll('[id^="type-"]').forEach(el => el.classList.remove('active'));
+    document.getElementById('type-' + val).classList.add('active');
+  }
 
   function setTon(val) {
     ton = val;
     document.querySelectorAll('[id^="ton-"]').forEach(el => el.classList.remove('active'));
     document.getElementById('ton-' + val).classList.add('active');
+    const nomField = document.getElementById('nom-field');
+    if (val === 'vouvoiement') {
+      nomField.style.background = '#f0f8f1';
+      nomField.style.borderRadius = '9px';
+      nomField.style.padding = '8px';
+      nomField.style.margin = '-8px';
+      nomField.querySelector('label').style.color = '#2d7a3a';
+    } else {
+      nomField.style.background = '';
+      nomField.style.borderRadius = '';
+      nomField.style.padding = '';
+      nomField.style.margin = '';
+      nomField.querySelector('label').style.color = '';
+    }
   }
 
   function setCTA(val) {
@@ -241,6 +307,7 @@
 
   function buildPrompt() {
     const prenom   = document.getElementById('prenom').value.trim();
+    const nom      = document.getElementById('nom').value.trim();
     const commerce = document.getElementById('commerce').value.trim();
     const ville    = document.getElementById('ville').value.trim();
     const secteur  = document.getElementById('secteur').value;
@@ -253,48 +320,72 @@
       devis:   "Inviter à demander un devis gratuit et personnalisé : https://www.moodstreamai.com/demande-de-devis",
     };
     const langMap = { fr: "FRANÇAIS", nl: "NÉERLANDAIS (Belgique)", en: "ANGLAIS" };
-    const tonDesc = ton === 'vouvoiement'
-      ? "Vouvoiement strict (vous, votre, vos). Professionnel mais chaleureux."
-      : "Tutoiement (tu, ton, tes). Décontracté et chaleureux.";
 
-    return `Tu es expert en prospection B2B pour Moodstream.ai.
+    let tonDesc;
+    if (ton === 'vouvoiement') {
+      const appellatif = nom ? `"Madame/Monsieur ${nom}"` : `"Madame, Monsieur"`;
+      tonDesc = `Vouvoiement strict (vous, votre, vos). Professionnel mais chaleureux. Commencer l'email par ${appellatif}. Ne jamais utiliser le prénom "${prenom}" dans le corps — uniquement le nom de famille.`;
+    } else {
+      tonDesc = `Tutoiement (tu, ton, tes). Décontracté et chaleureux. Commencer par "Bonjour ${prenom},".`;
+    }
+
+    let typeInstructions;
+    if (type === 'cold') {
+      typeInstructions = `TYPE : COLD EMAIL — premier contact absolu, le prospect ne connaît pas Moodstream.ai.
+OBJECTIF : piquer la curiosité, pas tout expliquer. Être bref et intrigant.
+LONGUEUR : 80 à 110 mots maximum pour le corps. Ultra court, ultra direct.
+APPROCHE : une accroche qui touche leur problème quotidien, une phrase sur ce que fait Moodstream, un bénéfice concret, et le CTA. Pas de présentation longue.
+Ne pas mentionner la démo.`;
+    } else {
+      typeInstructions = `TYPE : EMAIL D'INFORMATION — le prospect a montré de l'intérêt, il veut en savoir plus.
+OBJECTIF : présenter la solution clairement, rassurer, et proposer une étape concrète.
+LONGUEUR : 130 à 170 mots pour le corps.
+APPROCHE : remercier brièvement l'intérêt, expliquer ce que fait Moodstream (automatisation horaire, légalité, coûts allégés), inclure le lien plateforme https://www.moodstreamai.com/comment-ca-marche pour découvrir en détail, et proposer de venir faire une démonstration sur place à tout moment pour montrer concrètement la plateforme — insister sur le fait que c'est sans engagement et que ça prend peu de temps.`;
+    }
+
+    return `Tu es Arnaud, fondateur de Moodstream.ai, qui rédige un email de prospection personnalisé.
 
 MOODSTREAM.AI — https://www.moodstreamai.com
 "La bonne musique, au bon endroit, au bon moment."
 Solution SaaS de sonorisation intelligente pour les commerces. Musiques IA + artistes, automatisées selon les horaires.
 
-POINTS CLÉS À ABORDER (naturellement, pas en liste) :
-- La musique s'adapte automatiquement selon le moment de la journée (${s.ambiance})
+AVANTAGES CLÉS :
+- Musique qui s'adapte automatiquement selon le moment de la journée (${s.ambiance})
 - 100% légal et libre de droits — fini les tracas SABAM/SACEM
-- Peut permettre d'alléger sensiblement les coûts musicaux actuels (NE PAS donner de pourcentage précis, rester vague et honnête : "réduire vos coûts", "alléger votre facture", etc.)
+- Peut alléger sensiblement les coûts musicaux (rester vague, jamais de pourcentage précis)
 - 14 jours d'essai gratuit, sans engagement
-- Lien pour découvrir la plateforme en profondeur : https://www.moodstreamai.com/comment-ca-marche
+- Plateforme : https://www.moodstreamai.com/comment-ca-marche
 
 PROSPECT :
-- Prénom : ${prenom}
+- Prénom : ${prenom}${nom ? `\n- Nom de famille : ${nom}` : ''}
 - Commerce : ${commerce}
 - Ville : ${ville}
 - Secteur : ${secteurLabel}
 - Problème typique : ${s.douleur}
 ${contexte ? `- Contexte : ${contexte}` : ""}
 
-CONSIGNES STRICTES :
+${typeInstructions}
+
+CONSIGNES GÉNÉRALES :
 - Langue : ${langMap[lang]}
-- ${tonDesc}
-- COURT : 100 à 130 mots maximum pour le corps. Aller droit au but, pas de remplissage.
-- Pas de bullet points
+- Ton : ${tonDesc}
+- Pas de bullet points dans le corps
 - Pas de statistiques chiffrées
 - Pas de "prêt en 10 minutes"
-- Inclure https://www.moodstreamai.com/comment-ca-marche avec une phrase du type "tu peux/vous pouvez découvrir la plateforme en détail ici"
 - CTA final : ${ctaMap[cta]}
 - Objet : percutant, personnalisé, max 9 mots
+
+SIGNATURE (toujours cette signature exacte, adaptée à la langue) :
+Arnaud
+Fondateur — Moodstream.ai
+www.moodstreamai.com
 
 FORMAT STRICT :
 OBJET: [objet]
 
 [corps]
 
-[signature : prénom fictif + Équipe Moodstream.ai | www.moodstreamai.com]`;
+[signature]`;
   }
 
   async function generer() {
@@ -304,6 +395,10 @@ OBJET: [objet]
     document.getElementById('err-content').style.display = 'none';
     document.getElementById('gen-btn').disabled = true;
     fullEmailText = '';
+
+    // Update result label
+    document.getElementById('res-type-label').textContent =
+      type === 'cold' ? 'Cold email — Premier contact' : 'Demande d\'info — Prospect intéressé';
 
     try {
       const res = await fetch('/.netlify/functions/generate-email', {
