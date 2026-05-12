@@ -22,6 +22,7 @@
     .sec-lbl::after { content: ''; flex: 1; height: 1px; background: #e8f0e8; }
     .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
     .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .g4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 0; }
     .field { display: flex; flex-direction: column; gap: 5px; }
     .field label { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #5a6e5a; }
     .field input, .field select, .field textarea { background: #f7f9f7; border: 1.5px solid #dde8dd; border-radius: 9px; padding: 10px 13px; font-size: 14px; color: #1a2e1a; font-family: 'Inter', sans-serif; outline: none; width: 100%; transition: border-color .15s, background .15s; }
@@ -30,7 +31,6 @@
     .field textarea { min-height: 72px; resize: vertical; line-height: 1.6; }
     .opt-lbl { font-weight: 400; text-transform: none; letter-spacing: 0; color: #b0c0b0; font-size: 11px; }
 
-    /* Toggle options */
     .toggle-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .toggle-opt { padding: 13px 16px; background: #f7f9f7; border: 1.5px solid #dde8dd; border-radius: 10px; cursor: pointer; transition: all .15s; user-select: none; }
     .toggle-opt:hover { border-color: #9ec4a0; background: #f3f8f3; }
@@ -39,9 +39,8 @@
     .tl-top { font-size: 13px; font-weight: 600; color: #1a2e1a; display: block; margin-bottom: 3px; }
     .tl-sub { font-size: 11px; color: #8aaa8a; line-height: 1.4; }
 
-    /* Version type cards — bigger, more descriptive */
     .version-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .version-opt { padding: 16px 18px; background: #f7f9f7; border: 1.5px solid #dde8dd; border-radius: 12px; cursor: pointer; transition: all .15s; user-select: none; position: relative; }
+    .version-opt { padding: 16px 18px; background: #f7f9f7; border: 1.5px solid #dde8dd; border-radius: 12px; cursor: pointer; transition: all .15s; user-select: none; }
     .version-opt:hover { border-color: #9ec4a0; background: #f3f8f3; }
     .version-opt.active { border-color: #2d7a3a; background: #f0f8f1; }
     .version-opt.active .v-title { color: #2d7a3a; }
@@ -49,6 +48,14 @@
     .v-badge { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; background: #e0ebe0; color: #6b8a6b; border-radius: 100px; padding: 3px 9px; margin-bottom: 8px; transition: all .15s; }
     .v-title { font-size: 14px; font-weight: 600; color: #1a2e1a; display: block; margin-bottom: 5px; }
     .v-desc { font-size: 12px; color: #8aaa8a; line-height: 1.5; }
+
+    /* Civilite pills */
+    .civ-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .civ-btn { padding: 8px 16px; background: #f7f9f7; border: 1.5px solid #dde8dd; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #8aaa8a; cursor: pointer; transition: all .15s; }
+    .civ-btn.on { border-color: #2d7a3a; color: #2d7a3a; background: #f0f8f1; font-weight: 600; }
+
+    /* Vouvoiement section — shown/hidden */
+    #vouvoiement-options { display: none; margin-top: 14px; border-top: 1px solid #e8f0e8; padding-top: 14px; }
 
     .lang-row { display: flex; gap: 8px; }
     .lang-btn { padding: 8px 18px; background: #f7f9f7; border: 1.5px solid #dde8dd; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #8aaa8a; cursor: pointer; transition: all .15s; }
@@ -106,7 +113,7 @@
   </div>
 
   <h1>Emails de prospection <em>personnalisés</em></h1>
-  <p class="sub">Génère en quelques secondes un email direct et convaincant pour présenter Moodstream.ai à tes prospects.</p>
+  <p class="sub">Génère un email sur mesure pour présenter Moodstream.ai à tes prospects. Remplis les infos, choisis le type d'email, et laisse l'IA rédiger.</p>
 
   <!-- Prospect -->
   <div class="card">
@@ -133,7 +140,7 @@
       <div class="field">
         <label>Secteur <span class="req">requis</span></label>
         <select id="secteur" onchange="checkForm()">
-          <option value="">Choisir un secteur…</option>
+          <option value="">Choisir un secteur...</option>
           <option value="restaurant">Restaurant / Café</option>
           <option value="boutique">Boutique / Retail</option>
           <option value="salon">Salon de coiffure / Beauté</option>
@@ -147,7 +154,7 @@
     </div>
     <div class="field">
       <label>Contexte additionnel <span class="opt-lbl">(optionnel)</span></label>
-      <textarea id="contexte" placeholder="ex : viennent d'ouvrir, utilisent Spotify, ont mentionné un problème SABAM…"></textarea>
+      <textarea id="contexte" placeholder="ex : viennent d'ouvrir, utilisent Spotify, ont mentionné un problème UNISONO..."></textarea>
     </div>
   </div>
 
@@ -158,12 +165,12 @@
       <div class="version-opt active" id="type-cold" onclick="setType('cold')">
         <span class="v-badge">Cold email</span>
         <span class="v-title">Premier contact</span>
-        <span class="v-desc">Le prospect ne te connaît pas du tout. Email court, accrocheur, qui pique la curiosité et donne envie d'en savoir plus.</span>
+        <span class="v-desc">Le prospect ne te connaît pas. Email court et accrocheur qui donne envie d'en savoir plus.</span>
       </div>
       <div class="version-opt" id="type-info" onclick="setType('info')">
         <span class="v-badge">Demande d'info</span>
         <span class="v-title">Prospect intéressé</span>
-        <span class="v-desc">Le prospect a montré de l'intérêt. Email plus complet qui présente la solution, propose une démo sur place et invite à passer à l'action.</span>
+        <span class="v-desc">Le prospect a montré de l'intérêt. Email plus complet qui présente la solution et propose une démo sur place.</span>
       </div>
     </div>
   </div>
@@ -174,11 +181,21 @@
     <div class="toggle-row">
       <div class="toggle-opt active" id="ton-tutoiement" onclick="setTon('tutoiement')">
         <span class="tl-top">Tutoiement</span>
-        <span class="tl-sub">Chaleureux & proche — utilise le prénom</span>
+        <span class="tl-sub">Chaleureux et proche, utilise le prénom</span>
       </div>
       <div class="toggle-opt" id="ton-vouvoiement" onclick="setTon('vouvoiement')">
         <span class="tl-top">Vouvoiement</span>
-        <span class="tl-sub">Professionnel — utilise le nom de famille</span>
+        <span class="tl-sub">Professionnel, utilise le nom de famille</span>
+      </div>
+    </div>
+
+    <!-- Civilité — visible uniquement en vouvoiement -->
+    <div id="vouvoiement-options">
+      <label style="font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#5a6e5a;display:block;margin-bottom:8px;">Civilité</label>
+      <div class="civ-row">
+        <button class="civ-btn on" id="civ-madame" onclick="setCiv('madame')">Madame</button>
+        <button class="civ-btn" id="civ-monsieur" onclick="setCiv('monsieur')">Monsieur</button>
+        <button class="civ-btn" id="civ-les-deux" onclick="setCiv('les-deux')">Madame, Monsieur</button>
       </div>
     </div>
   </div>
@@ -192,8 +209,8 @@
         <span class="tl-sub">Sans carte de crédit</span>
       </div>
       <div class="toggle-opt" id="cta-devis" onclick="setCTA('devis')">
-        <span class="tl-top">Devis gratuit</span>
-        <span class="tl-sub">Personnalisé & rapide</span>
+        <span class="tl-top">Demande de devis</span>
+        <span class="tl-sub">Via le site ou en répondant à cet email</span>
       </div>
     </div>
   </div>
@@ -211,13 +228,13 @@
   <p class="hint" id="hint">Remplis les 4 champs requis pour générer l'email.</p>
 
   <button class="gen-btn" id="gen-btn" disabled onclick="generer()">
-    Générer l'email de prospection →
+    Générer l'email de prospection
   </button>
 
   <div id="result-box">
     <div id="loading-area" class="loading-area">
       <div class="spin"></div>
-      <span class="load-txt">Rédaction personnalisée en cours…</span>
+      <span class="load-txt">Rédaction en cours...</span>
     </div>
     <div id="email-content" style="display:none">
       <div class="res-head">
@@ -241,21 +258,22 @@
 </div>
 
 <script>
-  let cta = 'gratuit';
+  let cta  = 'gratuit';
   let lang = 'fr';
-  let ton = 'tutoiement';
+  let ton  = 'tutoiement';
   let type = 'cold';
+  let civ  = 'madame';
   let fullEmailText = '';
 
   const SECTEURS = {
-    restaurant:  { douleur: "une playlist Spotify personnelle qui tourne en boucle — illégale et inadaptée selon l'heure", ambiance: "dynamique au déjeuner, lounge en soirée" },
+    restaurant:  { douleur: "une playlist Spotify personnelle qui tourne en boucle, illégale et inadaptée selon les moments de la journée", ambiance: "dynamique au déjeuner, plus lounge en soirée" },
     boutique:    { douleur: "une musique générique qui ne reflète pas l'identité de la marque", ambiance: "énergique en journée, plus douce en fin d'après-midi" },
-    salon:       { douleur: "une radio commerciale avec des publicités qui brisent l'atmosphère zen du salon", ambiance: "relaxante et soignée tout au long de la journée" },
-    bar:         { douleur: "une ambiance sonore qui ne monte pas en intensité en soirée", ambiance: "lounge en début de soirée, festive et montante ensuite" },
-    boulangerie: { douleur: "une musique trop neutre qui ne renforce pas l'atmosphère chaleureuse du lieu", ambiance: "chaleureuse et matinale, douce en après-midi" },
-    fitness:     { douleur: "une playlist qui ne s'adapte pas aux différents cours et moments de la journée", ambiance: "motivante en matinée, progressive selon le type de cours" },
-    hotel:       { douleur: "une ambiance sonore uniforme dans tous les espaces sans personnalisation par zone", ambiance: "différente par zone : accueil, restauration, détente" },
-    autre:       { douleur: "une solution musicale générique qui ne correspond pas à l'identité unique du lieu", ambiance: "adaptée au secteur et aux horaires" },
+    salon:       { douleur: "une radio commerciale avec des publicités qui cassent l'atmosphère du salon", ambiance: "relaxante et soignée tout au long de la journée" },
+    bar:         { douleur: "une ambiance sonore qui ne monte pas en intensité en soirée", ambiance: "plus lounge en début de soirée, festive ensuite" },
+    boulangerie: { douleur: "une musique trop neutre qui ne renforce pas l'atmosphère chaleureuse du lieu", ambiance: "chaleureuse le matin, plus douce l'après-midi" },
+    fitness:     { douleur: "une playlist qui ne s'adapte pas aux différents cours et moments de la journée", ambiance: "motivante le matin, progressive selon les cours" },
+    hotel:       { douleur: "une ambiance sonore uniforme dans tous les espaces, sans personnalisation par zone", ambiance: "différente selon les zones : accueil, restauration, détente" },
+    autre:       { douleur: "une solution musicale générique qui ne correspond pas à l'identité du lieu", ambiance: "adaptée au secteur et aux horaires" },
   };
 
   function setType(val) {
@@ -268,20 +286,23 @@
     ton = val;
     document.querySelectorAll('[id^="ton-"]').forEach(el => el.classList.remove('active'));
     document.getElementById('ton-' + val).classList.add('active');
-    const nomField = document.getElementById('nom-field');
+    const vvOptions = document.getElementById('vouvoiement-options');
+    const nomField  = document.getElementById('nom-field');
     if (val === 'vouvoiement') {
-      nomField.style.background = '#f0f8f1';
-      nomField.style.borderRadius = '9px';
-      nomField.style.padding = '8px';
-      nomField.style.margin = '-8px';
+      vvOptions.style.display = 'block';
       nomField.querySelector('label').style.color = '#2d7a3a';
+      nomField.querySelector('input').style.borderColor = '#2d7a3a';
     } else {
-      nomField.style.background = '';
-      nomField.style.borderRadius = '';
-      nomField.style.padding = '';
-      nomField.style.margin = '';
+      vvOptions.style.display = 'none';
       nomField.querySelector('label').style.color = '';
+      nomField.querySelector('input').style.borderColor = '';
     }
+  }
+
+  function setCiv(val) {
+    civ = val;
+    document.querySelectorAll('.civ-btn').forEach(el => el.classList.remove('on'));
+    document.getElementById('civ-' + val).classList.add('on');
   }
 
   function setCTA(val) {
@@ -305,6 +326,11 @@
     document.getElementById('hint').style.display = ok ? 'none' : 'block';
   }
 
+  function getCivilite() {
+    const map = { 'madame': 'Madame', 'monsieur': 'Monsieur', 'les-deux': 'Madame, Monsieur' };
+    return map[civ] || 'Madame, Monsieur';
+  }
+
   function buildPrompt() {
     const prenom   = document.getElementById('prenom').value.trim();
     const nom      = document.getElementById('nom').value.trim();
@@ -314,76 +340,79 @@
     const contexte = document.getElementById('contexte').value.trim();
     const s = SECTEURS[secteur] || SECTEURS.autre;
     const secteurLabel = document.getElementById('secteur').options[document.getElementById('secteur').selectedIndex].text;
+    const langMap = { fr: 'FRANÇAIS', nl: 'NÉERLANDAIS (Belgique)', en: 'ANGLAIS' };
 
-    const ctaMap = {
-      gratuit: "Inviter à tester 14 jours gratuitement, sans engagement ni carte de crédit : https://www.moodstreamai.com/semaine-gratuite",
-      devis:   "Inviter à demander un devis gratuit et personnalisé : https://www.moodstreamai.com/demande-de-devis",
-    };
-    const langMap = { fr: "FRANÇAIS", nl: "NÉERLANDAIS (Belgique)", en: "ANGLAIS" };
-
+    // Ton / civilité
     let tonDesc;
     if (ton === 'vouvoiement') {
-      const appellatif = nom ? `"Madame/Monsieur ${nom}"` : `"Madame, Monsieur"`;
-      tonDesc = `Vouvoiement strict (vous, votre, vos). Professionnel mais chaleureux. Commencer l'email par ${appellatif}. Ne jamais utiliser le prénom "${prenom}" dans le corps — uniquement le nom de famille.`;
+      const civilite = getCivilite();
+      const appellatif = nom ? `${civilite} ${nom}` : civilite;
+      tonDesc = `Vouvoiement strict (vous, votre, vos). Commencer par "${appellatif},". Ne jamais utiliser le prénom dans le corps.`;
     } else {
-      tonDesc = `Tutoiement (tu, ton, tes). Décontracté et chaleureux. Commencer par "Bonjour ${prenom},".`;
+      tonDesc = `Tutoiement (tu, ton, tes). Commencer par "Bonjour ${prenom},".`;
     }
 
+    // CTA
+    let ctaDesc;
+    if (cta === 'gratuit') {
+      ctaDesc = 'Inviter à tester 14 jours gratuitement, sans engagement ni carte de crédit : https://www.moodstreamai.com/semaine-gratuite';
+    } else {
+      ctaDesc = 'Inviter à demander un devis, soit en visitant https://www.moodstreamai.com/demande-de-devis, soit simplement en répondant directement à cet email.';
+    }
+
+    // Type instructions
     let typeInstructions;
     if (type === 'cold') {
-      typeInstructions = `TYPE : COLD EMAIL — premier contact absolu, le prospect ne connaît pas Moodstream.ai.
-OBJECTIF : piquer la curiosité, pas tout expliquer. Être bref et intrigant.
-LONGUEUR : 80 à 110 mots maximum pour le corps. Ultra court, ultra direct.
-APPROCHE : une accroche qui touche leur problème quotidien, une phrase sur ce que fait Moodstream, un bénéfice concret, et le CTA. Pas de présentation longue.
-Ne pas mentionner la démo.`;
+      typeInstructions = `TYPE D'EMAIL : COLD EMAIL (premier contact absolu, le prospect ne connaît pas Moodstream.ai et n'a jamais entendu parler de la solution).
+OBJECTIF : éveiller la curiosité, pas tout expliquer. Être bref et direct.
+LONGUEUR : 80 à 110 mots pour le corps. Court et percutant.
+APPROCHE : une accroche liée à leur problème quotidien, une ou deux phrases sur ce que fait Moodstream, un bénéfice concret, puis le CTA. Pas de présentation complète de la solution.
+Ne pas mentionner la démo.
+Ne pas utiliser de longs tirets (type " — ") dans le texte. Utiliser des virgules ou des points à la place.`;
     } else {
-      typeInstructions = `TYPE : EMAIL D'INFORMATION — le prospect a montré de l'intérêt, il veut en savoir plus.
-OBJECTIF : présenter la solution clairement, rassurer, et proposer une étape concrète.
+      typeInstructions = `TYPE D'EMAIL : DEMANDE D'INFORMATION (le prospect a montré de l'intérêt, il veut en savoir plus sur Moodstream.ai).
+OBJECTIF : présenter clairement la solution, rassurer sur sa simplicité, et proposer une étape concrète.
 LONGUEUR : 130 à 170 mots pour le corps.
-APPROCHE : remercier brièvement l'intérêt, expliquer ce que fait Moodstream (automatisation horaire, légalité, coûts allégés), inclure le lien plateforme https://www.moodstreamai.com/comment-ca-marche pour découvrir en détail, et proposer de venir faire une démonstration sur place à tout moment pour montrer concrètement la plateforme — insister sur le fait que c'est sans engagement et que ça prend peu de temps.`;
+APPROCHE : remercier brièvement l'intérêt manifesté, expliquer ce que fait concrètement Moodstream (les musiques tournent selon un programme horaire défini, tout est géré automatiquement, c'est légal et sans tracas UNISONO, les coûts peuvent être allégés), inclure le lien https://www.moodstreamai.com/comment-ca-marche pour découvrir la plateforme en détail, et proposer de passer faire une démonstration sur place à tout moment pour montrer concrètement comment ça fonctionne, sans engagement.
+Ne pas utiliser de longs tirets (type " — ") dans le texte. Utiliser des virgules ou des points à la place.`;
     }
 
     return `Tu es Arnaud, fondateur de Moodstream.ai, qui rédige un email de prospection personnalisé.
 
-MOODSTREAM.AI — https://www.moodstreamai.com
-"La bonne musique, au bon endroit, au bon moment."
-Solution SaaS de sonorisation intelligente pour les commerces. Musiques IA + artistes, automatisées selon les horaires.
+MOODSTREAM.AI : https://www.moodstreamai.com
+Slogan : "La bonne musique, au bon endroit, au bon moment."
+Moodstream.ai est une solution de sonorisation pour les commerces. Les musiques tournent selon un programme horaire défini par le gérant : une sélection le matin, une autre le midi, une autre en soirée. Tout tourne automatiquement, sans manipulation quotidienne. Les musiques sont 100% légales, libres de droits, sans tracas UNISONO. La solution peut également aider à alléger les coûts musicaux (ne pas donner de chiffre précis, rester vague et honnête).
 
-AVANTAGES CLÉS :
-- Musique qui s'adapte automatiquement selon le moment de la journée (${s.ambiance})
-- 100% légal et libre de droits — fini les tracas SABAM/SACEM
-- Peut alléger sensiblement les coûts musicaux (rester vague, jamais de pourcentage précis)
-- 14 jours d'essai gratuit, sans engagement
-- Plateforme : https://www.moodstreamai.com/comment-ca-marche
-
-PROSPECT :
-- Prénom : ${prenom}${nom ? `\n- Nom de famille : ${nom}` : ''}
-- Commerce : ${commerce}
-- Ville : ${ville}
-- Secteur : ${secteurLabel}
-- Problème typique : ${s.douleur}
-${contexte ? `- Contexte : ${contexte}` : ""}
+INFORMATIONS SUR LE PROSPECT :
+Prénom : ${prenom}${nom ? '\nNom de famille : ' + nom : ''}
+Commerce : ${commerce}
+Ville : ${ville}
+Secteur : ${secteurLabel}
+Problème typique de ce secteur : ${s.douleur}
+Programme sonore adapté à ce secteur : ${s.ambiance}
+${contexte ? 'Contexte particulier : ' + contexte : ''}
 
 ${typeInstructions}
 
 CONSIGNES GÉNÉRALES :
-- Langue : ${langMap[lang]}
-- Ton : ${tonDesc}
-- Pas de bullet points dans le corps
-- Pas de statistiques chiffrées
-- Pas de "prêt en 10 minutes"
-- CTA final : ${ctaMap[cta]}
-- Objet : percutant, personnalisé, max 9 mots
+Langue : ${langMap[lang]}
+Ton : ${tonDesc}
+Pas de bullet points dans le corps du mail.
+Pas de statistiques chiffrées.
+Ne jamais écrire "prêt en 10 minutes".
+Ne pas utiliser de longs tirets (" — ") dans le texte.
+CTA : ${ctaDesc}
+Objet : court, accrocheur, personnalisé, maximum 9 mots, sans long tiret.
 
-SIGNATURE (toujours cette signature exacte, adaptée à la langue) :
+SIGNATURE (toujours exactement celle-ci, adaptée à la langue) :
 Arnaud
-Fondateur — Moodstream.ai
+Fondateur, Moodstream.ai
 www.moodstreamai.com
 
-FORMAT STRICT :
+FORMAT DE RÉPONSE (respecter strictement) :
 OBJET: [objet]
 
-[corps]
+[corps de l'email]
 
 [signature]`;
   }
@@ -396,9 +425,8 @@ OBJET: [objet]
     document.getElementById('gen-btn').disabled = true;
     fullEmailText = '';
 
-    // Update result label
     document.getElementById('res-type-label').textContent =
-      type === 'cold' ? 'Cold email — Premier contact' : 'Demande d\'info — Prospect intéressé';
+      type === 'cold' ? 'Cold email — Premier contact' : "Demande d'info — Prospect intéressé";
 
     try {
       const res = await fetch('/.netlify/functions/generate-email', {
@@ -433,7 +461,7 @@ OBJET: [objet]
   function copier() {
     navigator.clipboard.writeText(fullEmailText).then(() => {
       const btn = document.getElementById('copy-btn');
-      btn.textContent = '✓ Copié !';
+      btn.textContent = 'Copié !';
       btn.style.background = '#1a5a25';
       setTimeout(() => { btn.textContent = 'Copier'; btn.style.background = ''; }, 2500);
     });
